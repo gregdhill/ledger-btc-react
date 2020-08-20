@@ -1,10 +1,19 @@
 import * as esplora from "@interlay/esplora-btc-api";
 
-export type UTXO = {
+export interface UTXO {
   txid: string;
   value: number;
   vout: number;
-};
+  addr: string;
+
+  key(): string;
+}
+
+export interface AccountInfo {
+  checked: boolean;
+  index: number;
+  value: number;
+}
 
 export class BitcoinApi {
   txApi: esplora.TxApi;
@@ -22,11 +31,13 @@ export class BitcoinApi {
     return (await this.txApi.getTxHex(txid)).data;
   }
 
+  // accumulated account balance
   async getAccountValue(addr: string): Promise<number> {
     const info = (await this.addrApi.getAddress(addr)).data;
     return info.chain_stats.funded_txo_sum || 0;
   }
 
+  // all unspent outputs for an account
   async getAccountUtxos(addr: string): Promise<Array<UTXO>> {
     const info = (await this.addrApi.getAddressUtxo(addr)).data;
     return info.map((utxo) => {
@@ -34,11 +45,17 @@ export class BitcoinApi {
         txid: utxo.txid,
         value: utxo.value,
         vout: utxo.vout,
+        addr: addr,
+
+        key: () => {
+          return `${utxo.txid}${utxo.vout}`;
+        },
       };
     });
   }
 }
 
 export function satToBtc(sat: number) {
+  // TODO: use big int library
   return sat / Math.pow(10, 8);
 }

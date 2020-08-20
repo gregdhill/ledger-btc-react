@@ -56,11 +56,11 @@ export async function getWalletAddress(
   return key.bitcoinAddress;
 }
 
+// currently only supports segwit
 export async function createTransaction(
   app: AppBtc,
-  index: number,
   amount: number,
-  utxos: Array<UTXO & { hex: string }>,
+  utxos: Array<UTXO & { hex: string; index: number }>,
   toAddress: string
 ): Promise<string> {
   const txs = utxos.map((utxo) => {
@@ -92,7 +92,7 @@ export async function createTransaction(
     inputs: txs.map((utxo) => {
       return [utxo.tx, utxo.vout, null, null];
     }),
-    associatedKeysets: txs.map((_) => derivePath(TESTNET, index)),
+    associatedKeysets: txs.map((tx) => derivePath(TESTNET, tx.index)),
     outputScriptHex: outputScript,
     segwit: true,
     additionals: ["bitcoin", "bech32"],
