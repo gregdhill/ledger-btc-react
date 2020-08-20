@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/ledger-btc-react/static/css/main.5f361e03.chunk.css",
+    "main.js": "/ledger-btc-react/static/js/main.32fd55cc.chunk.js",
+    "main.js.map": "/ledger-btc-react/static/js/main.32fd55cc.chunk.js.map",
+    "runtime-main.js": "/ledger-btc-react/static/js/runtime-main.7dba9b34.js",
+    "runtime-main.js.map": "/ledger-btc-react/static/js/runtime-main.7dba9b34.js.map",
+    "static/css/2.11829350.chunk.css": "/ledger-btc-react/static/css/2.11829350.chunk.css",
+    "static/js/2.df6681d9.chunk.js": "/ledger-btc-react/static/js/2.df6681d9.chunk.js",
+    "static/js/2.df6681d9.chunk.js.map": "/ledger-btc-react/static/js/2.df6681d9.chunk.js.map",
+    "index.html": "/ledger-btc-react/index.html",
+    "precache-manifest.894eab8d4eaaf98a663b508b93e05db3.js": "/ledger-btc-react/precache-manifest.894eab8d4eaaf98a663b508b93e05db3.js",
+    "service-worker.js": "/ledger-btc-react/service-worker.js",
+    "static/css/2.11829350.chunk.css.map": "/ledger-btc-react/static/css/2.11829350.chunk.css.map",
+    "static/css/main.5f361e03.chunk.css.map": "/ledger-btc-react/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.df6681d9.chunk.js.LICENSE.txt": "/ledger-btc-react/static/js/2.df6681d9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7dba9b34.js",
+    "static/css/2.11829350.chunk.css",
+    "static/js/2.df6681d9.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.32fd55cc.chunk.js"
+  ]
+}
