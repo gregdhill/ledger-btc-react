@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { BitcoinApi, satToBtc, UTXO, AccountInfo } from "../bitcoin";
+import { BitcoinApi, satToBtc, UTXO, AccountInfo, getTxLink } from "../bitcoin";
 import * as ledger from "../ledger";
-import { Button, Form, Jumbotron, Alert } from "react-bootstrap";
+import { Button, Form, Jumbotron, Alert, Spinner } from "react-bootstrap";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 type FormControlElement =
   | HTMLInputElement
@@ -20,17 +21,34 @@ interface State {
   recipient: string;
   satoshis: number;
   txFee: number;
-  loading: boolean;
+  isSigning: boolean;
+  isSending: boolean;
+
+  txId?: string;
   txHex?: string;
   error?: Error;
 }
+
+const LoadingButton = () => (
+  <Button variant="primary" disabled>
+    <Spinner
+      as="span"
+      animation="border"
+      size="sm"
+      role="status"
+      aria-hidden="true"
+    />
+    <span className="sr-only">Loading...</span>
+  </Button>
+);
 
 export default class SignAndSend extends Component<Props> {
   state: State = {
     recipient: "",
     satoshis: 0,
     txFee: 0,
-    loading: false,
+    isSigning: false,
+    isSending: false,
   };
 
   componentDidMount() {
@@ -39,9 +57,26 @@ export default class SignAndSend extends Component<Props> {
     this.setState({ satoshis: total });
   }
 
+  async sendTx(hex: string) {
+    this.setState({ isSending: true });
+
+    try {
+      const txId = await this.props.apiBtc.broadcastTx(hex);
+      this.setState({ txId: txId });
+    } catch (error) {
+      this.setState({ error: error });
+    }
+    this.setState({ isSending: false });
+  }
+
   async createTransaction() {
     // clear error and previous raw tx
-    this.setState({ error: undefined, txHex: undefined });
+    this.setState({
+      error: undefined,
+      txHex: undefined,
+      txId: undefined,
+      isSigning: true,
+    });
     const { recipient, satoshis, txFee } = this.state;
     try {
       const { appBtc, apiBtc, accounts, outputs } = this.props;
@@ -67,6 +102,7 @@ export default class SignAndSend extends Component<Props> {
     } catch (error) {
       this.setState({ error: error });
     }
+    this.setState({ isSigning: false });
   }
 
   handleChange(event: React.ChangeEvent<FormControlElement>) {
@@ -77,7 +113,7 @@ export default class SignAndSend extends Component<Props> {
   }
 
   render() {
-    const { satoshis } = this.state;
+    const { satoshis, txHex, txId } = this.state;
     return (
       <div>
         <Jumbotron>
@@ -115,20 +151,44 @@ export default class SignAndSend extends Component<Props> {
           </Form.Group>
 
           <Form.Group>
-            <Button
-              variant="primary"
-              type="button"
-              onClick={() => this.createTransaction()}
-            >
-              Sign
-            </Button>
+            {!this.state.isSigning && (
+              <Button
+                variant="primary"
+                type="button"
+                onClick={() => this.createTransaction()}
+              >
+                Sign
+              </Button>
+            )}
+            {this.state.isSigning && <LoadingButton />}
           </Form.Group>
 
-          {this.state.txHex && (
-            <Form.Group controlId="toHex">
+          {txHex && (
+            <Form.Group controlId="txHex">
               <Form.Label>Raw Tx</Form.Label>
-              <Form.Control type="text" value={this.state.txHex} readOnly />
+              <Form.Control type="text" value={txHex} readOnly />
             </Form.Group>
+          )}
+
+          {txHex && !txId && (
+            <Form.Group controlId="sendTx">
+              {!this.state.isSending && (
+                <Button
+                  variant="primary"
+                  type="button"
+                  onClick={() => this.sendTx(txHex)}
+                >
+                  Send
+                </Button>
+              )}
+              {this.state.isSending && <LoadingButton />}
+            </Form.Group>
+          )}
+
+          {txId && (
+            <Button onClick={() => window.open(getTxLink(txId))}>
+              {txId} <FaExternalLinkAlt className="ml-2" />
+            </Button>
           )}
 
           {this.state.error && (

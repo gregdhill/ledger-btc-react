@@ -31,7 +31,6 @@ export default class App extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    // TODO: hide buttons pending form validation
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
   }
@@ -71,6 +70,7 @@ export default class App extends Component<Props, State> {
 
   get previousButton() {
     let currentStep = this.state.currentStep;
+
     if (currentStep > 1) {
       return (
         <Button
@@ -87,9 +87,19 @@ export default class App extends Component<Props, State> {
   }
 
   get nextButton() {
-    let { currentStep } = this.state;
+    let { currentStep, accounts, outputs } = this.state;
 
-    if (currentStep < 3) {
+    if (
+      currentStep === 1 &&
+      [...accounts].reduce(
+        (total, [, info]) => (total += info.checked ? 1 : 0),
+        0
+      ) === 0
+    ) {
+      return null;
+    } else if (currentStep === 2 && outputs.size === 0) {
+      return null;
+    } else if (currentStep < 3) {
       return (
         <Button
           variant="primary"

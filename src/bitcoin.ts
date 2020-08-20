@@ -1,4 +1,5 @@
 import * as esplora from "@interlay/esplora-btc-api";
+import * as bitcoin from "bitcoinjs-lib";
 
 export interface UTXO {
   txid: string;
@@ -53,6 +54,20 @@ export class BitcoinApi {
       };
     });
   }
+
+  async broadcastTx(hex: string) {
+    const result = await this.txApi.postTx(hex);
+    return result.data;
+  }
+}
+
+export function getTxLink(txId: string) {
+  return `https://www.blockchain.com/btc-testnet/tx/${txId}`;
+}
+
+export function getTxId(hex: string) {
+  const tx = bitcoin.Transaction.fromHex(hex);
+  return tx.getId();
 }
 
 export function satToBtc(sat: number) {
