@@ -14,6 +14,7 @@ interface Props {
   apiBtc: BitcoinApi;
   accounts: Map<string, AccountInfo>;
   outputs: Map<string, UTXO>;
+  resetAccounts(): void;
 }
 
 interface State {
@@ -62,11 +63,20 @@ export default class SignAndSend extends Component<Props> {
 
     try {
       const txId = await this.props.apiBtc.broadcastTx(hex);
-      this.setState({ txId: txId });
+      this.setState({
+        txId: txId,
+        isSending: false,
+        recipient: "",
+        satoshis: 0,
+        txFee: 0,
+      });
+      this.props.resetAccounts();
     } catch (error) {
-      this.setState({ error: error });
+      this.setState({
+        isSending: false,
+        error: error,
+      });
     }
-    this.setState({ isSending: false });
   }
 
   async createTransaction() {
@@ -126,6 +136,7 @@ export default class SignAndSend extends Component<Props> {
             <Form.Control
               type="text"
               placeholder="Address"
+              value={this.state.recipient}
               name="recipient"
               onChange={this.handleChange.bind(this)}
             />
@@ -145,6 +156,7 @@ export default class SignAndSend extends Component<Props> {
             <Form.Control
               type="number"
               placeholder="Fee"
+              value={this.state.txFee}
               name="txFee"
               onChange={this.handleChange.bind(this)}
             />

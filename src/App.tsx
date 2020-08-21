@@ -66,7 +66,13 @@ export default class App extends Component<Props, State> {
 
   _prev() {
     let currentStep = this.state.currentStep;
-    currentStep = currentStep <= 0 ? 0 : currentStep - 1;
+    const outputs = this.state.outputs;
+    currentStep =
+      currentStep === 3 && outputs.size === 0
+        ? 1
+        : currentStep <= 0
+        ? 0
+        : currentStep - 1;
     this.setState({
       currentStep: currentStep,
     });
@@ -149,6 +155,17 @@ export default class App extends Component<Props, State> {
     this.setState({ outputs });
   }
 
+  resetAccounts(): void {
+    const { accounts } = this.state;
+    accounts.forEach((info) => {
+      info.checked = false;
+    });
+    this.setState({
+      accounts: accounts,
+      outputs: new Map<string, UTXO>(),
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -208,7 +225,11 @@ export default class App extends Component<Props, State> {
               />
             )}
             {this.state.currentStep === 3 && (
-              <SignAndSend appBtc={this.state.appBtc} {...this.state} />
+              <SignAndSend
+                appBtc={this.state.appBtc}
+                resetAccounts={this.resetAccounts.bind(this)}
+                {...this.state}
+              />
             )}
             {this.previousButton}
             {this.nextButton}
