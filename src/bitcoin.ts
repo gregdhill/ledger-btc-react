@@ -35,7 +35,10 @@ export class BitcoinApi {
   // accumulated account balance
   async getAccountValue(addr: string): Promise<number> {
     const info = (await this.addrApi.getAddress(addr)).data;
-    return info.chain_stats.funded_txo_sum || 0;
+    return (
+      (info.chain_stats.funded_txo_sum || 0) -
+      (info.chain_stats.spent_txo_sum || 0)
+    );
   }
 
   // all unspent outputs for an account

@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { BitcoinApi, UTXO, AccountInfo } from "./bitcoin";
 import * as ledger from "./ledger";
-import { Container, Jumbotron, Spinner, Button } from "react-bootstrap";
+import {
+  Container,
+  Jumbotron,
+  Spinner,
+  Button,
+  Alert,
+  Row,
+} from "react-bootstrap";
 import "./App.css";
 import SelectAddresses from "./components/SelectAddresses";
 import SelectOutputs from "./components/SelectOutputs";
@@ -15,10 +22,8 @@ interface State {
   accounts: Map<string, AccountInfo>;
   outputs: Map<string, UTXO>;
   currentStep: number;
-}
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(() => resolve(), ms));
+  isConnecting: boolean;
+  error?: Error;
 }
 
 export default class App extends Component<Props, State> {
@@ -27,6 +32,7 @@ export default class App extends Component<Props, State> {
     accounts: new Map<string, AccountInfo>(),
     outputs: new Map<string, UTXO>(),
     currentStep: 1,
+    isConnecting: false,
   };
 
   constructor(props: Props) {
@@ -35,21 +41,19 @@ export default class App extends Component<Props, State> {
     this._prev = this._prev.bind(this);
   }
 
-  async componentDidMount() {
-    while (true) {
-      try {
-        // ensures that the device is connected
-        // and working, user may need to exit
-        // and re-enter app if device falls asleep
-        const app = await ledger.connect();
-        await ledger.getWalletAddress(app, 0);
-        this.setState({ appBtc: app });
-        break;
-      } catch (error) {
-        // console.log(error);
-      }
-      await sleep(1000);
+  async connect() {
+    this.setState({ isConnecting: true });
+    try {
+      // ensures that the device is connected
+      // and working, user may need to exit
+      // and re-enter app if device falls asleep
+      const app = await ledger.connect();
+      await ledger.getWalletAddress(app, 0);
+      this.setState({ appBtc: app });
+    } catch (error) {
+      this.setState({ error: error });
     }
+    this.setState({ isConnecting: false });
   }
 
   _next() {
@@ -149,21 +153,44 @@ export default class App extends Component<Props, State> {
     return (
       <div className="App">
         {!this.state.appBtc && (
-          <Container>
-            <Jumbotron>
-              <h1 className="header">Connect Your Device</h1>
+          <Container className="p-3">
+            <Jumbotron fluid>
+              <h1>Connect Your Device</h1>
               <p>You may need to open the Bitcoin app.</p>
             </Jumbotron>
-            <Spinner
-              as="span"
-              animation="border"
-              role="status"
-              aria-hidden="true"
-            />
+
+            <Row className="justify-content-md-center">
+              {!this.state.isConnecting && (
+                <Button variant="primary" onClick={() => this.connect()}>
+                  Connect
+                </Button>
+              )}
+
+              {this.state.isConnecting && (
+                <Button variant="primary" disabled>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Loading...</span>
+                </Button>
+              )}
+            </Row>
+
+            {this.state.error && (
+              <Row className="justify-content-md-center mt-3">
+                <Alert key="ledgerErr" variant="danger">
+                  {this.state.error.message}
+                </Alert>
+              </Row>
+            )}
           </Container>
         )}
         {this.state.appBtc && (
-          <Container>
+          <Container className="p-3">
             {this.state.currentStep === 1 && (
               <SelectAddresses
                 updateAccount={this.updateAccount.bind(this)}

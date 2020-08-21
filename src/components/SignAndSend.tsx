@@ -116,8 +116,8 @@ export default class SignAndSend extends Component<Props> {
     const { satoshis, txHex, txId } = this.state;
     return (
       <div>
-        <Jumbotron>
-          <h1 className="header">Confirm & Sign</h1>
+        <Jumbotron fluid>
+          <h1>Confirm & Sign</h1>
           <p>Enter the recipient and transaction fee before signing.</p>
         </Jumbotron>
         <Form>

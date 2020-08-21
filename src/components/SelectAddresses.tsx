@@ -102,8 +102,8 @@ export default class SelectAddresses extends Component<Props, State> {
   render() {
     return (
       <div>
-        <Jumbotron>
-          <h1 className="header">Select Addresses</h1>
+        <Jumbotron fluid>
+          <h1>Select Addresses</h1>
         </Jumbotron>
 
         <Row className="justify-content-md-center">

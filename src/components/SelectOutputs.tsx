@@ -58,8 +58,8 @@ export default class SelectOutputs extends Component<Props> {
   render() {
     return (
       <div>
-        <Jumbotron>
-          <h1 className="header">Select Unspent Outputs</h1>
+        <Jumbotron fluid>
+          <h1>Select Unspent Outputs</h1>
         </Jumbotron>
 
         <Form.Group>
