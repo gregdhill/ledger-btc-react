@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ledger-btc-react/static/css/main.5f361e03.chunk.css",
-    "main.js": "/ledger-btc-react/static/js/main.fee7d318.chunk.js",
-    "main.js.map": "/ledger-btc-react/static/js/main.fee7d318.chunk.js.map",
+    "main.js": "/ledger-btc-react/static/js/main.4c194ec8.chunk.js",
+    "main.js.map": "/ledger-btc-react/static/js/main.4c194ec8.chunk.js.map",
     "runtime-main.js": "/ledger-btc-react/static/js/runtime-main.7dba9b34.js",
     "runtime-main.js.map": "/ledger-btc-react/static/js/runtime-main.7dba9b34.js.map",
     "static/css/2.11829350.chunk.css": "/ledger-btc-react/static/css/2.11829350.chunk.css",
     "static/js/2.0818856b.chunk.js": "/ledger-btc-react/static/js/2.0818856b.chunk.js",
     "static/js/2.0818856b.chunk.js.map": "/ledger-btc-react/static/js/2.0818856b.chunk.js.map",
     "index.html": "/ledger-btc-react/index.html",
-    "precache-manifest.6cd203e078b8ab34bd71c6125d2bd76e.js": "/ledger-btc-react/precache-manifest.6cd203e078b8ab34bd71c6125d2bd76e.js",
+    "precache-manifest.138efdd0dc5da4aca82497b2114bf3bb.js": "/ledger-btc-react/precache-manifest.138efdd0dc5da4aca82497b2114bf3bb.js",
     "service-worker.js": "/ledger-btc-react/service-worker.js",
     "static/css/2.11829350.chunk.css.map": "/ledger-btc-react/static/css/2.11829350.chunk.css.map",
     "static/css/main.5f361e03.chunk.css.map": "/ledger-btc-react/static/css/main.5f361e03.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.11829350.chunk.css",
     "static/js/2.0818856b.chunk.js",
     "static/css/main.5f361e03.chunk.css",
-    "static/js/main.fee7d318.chunk.js"
+    "static/js/main.4c194ec8.chunk.js"
   ]
 }

@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0ce51f8f3cc30bfd98016f946345dbbd",
+    "revision": "e29b7bd8472f42e1d2c68a1b895899d6",
     "url": "/ledger-btc-react/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ledger-btc-react/static/css/2.11829350.chunk.css"
   },
   {
-    "revision": "5772615d2b86da815726",
+    "revision": "6fb1879e90b0bc3d068a",
     "url": "/ledger-btc-react/static/css/main.5f361e03.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ledger-btc-react/static/js/2.0818856b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5772615d2b86da815726",
-    "url": "/ledger-btc-react/static/js/main.fee7d318.chunk.js"
+    "revision": "6fb1879e90b0bc3d068a",
+    "url": "/ledger-btc-react/static/js/main.4c194ec8.chunk.js"
   },
   {
     "revision": "3ed6901eab29d7c1ee88",
