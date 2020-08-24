@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ledger-btc-react/precache-manifest.138efdd0dc5da4aca82497b2114bf3bb.js"
+  "/ledger-btc-react/precache-manifest.273fe5d586a2c53240407b4d232390b1.js"
 );
 
 self.addEventListener('message', (event) => {
