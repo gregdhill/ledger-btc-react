@@ -20,12 +20,14 @@ export class BitcoinApi {
   txApi: esplora.TxApi;
   addrApi: esplora.AddressApi;
   blockApi: esplora.BlockApi;
+  feeApi: esplora.FeeEstimatesApi;
 
   constructor() {
     const basePath = "https://blockstream.info/testnet/api";
     this.txApi = new esplora.TxApi({ basePath: basePath });
     this.addrApi = new esplora.AddressApi({ basePath: basePath });
     this.blockApi = new esplora.BlockApi({ basePath: basePath });
+    this.feeApi = new esplora.FeeEstimatesApi({ basePath: basePath });
   }
 
   async getHexTransaction(txid: string): Promise<string> {
@@ -62,6 +64,11 @@ export class BitcoinApi {
     const result = await this.txApi.postTx(hex);
     return result.data;
   }
+
+  async feeEstimates(): Promise<number[]> {
+    const result = await this.feeApi.getFeeEstimates();
+    return result.data;
+  }
 }
 
 export function getTxLink(txId: string) {
@@ -76,4 +83,13 @@ export function getTxId(hex: string) {
 export function satToBtc(sat: number) {
   // TODO: use big int library
   return sat / Math.pow(10, 8);
+}
+
+// https://bitzuma.com/posts/making-sense-of-bitcoin-transaction-fees/
+export function estimateSegWitFee(
+  inputs: number,
+  outputs: number,
+  price: number
+) {
+  return Math.ceil((42 + 272 * inputs + 128 * outputs) / 4) * price;
 }

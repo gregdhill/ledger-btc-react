@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "http://gregdhill.github.io/ledger-btc-react",
   "dependencies": {
-    "@interlay/esplora-btc-api": "^0.1.6",
+    "@interlay/esplora-btc-api": "^0.1.7",
     "@ledgerhq/hw-app-btc": "^5.22.0",
     "@ledgerhq/hw-transport-u2f": "^5.22.0",
     "@ledgerhq/hw-transport-webusb": "^5.22.0",

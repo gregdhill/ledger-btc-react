@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { BitcoinApi, satToBtc, UTXO, AccountInfo, getTxLink } from "../bitcoin";
+import {
+  BitcoinApi,
+  satToBtc,
+  UTXO,
+  AccountInfo,
+  getTxLink,
+  estimateSegWitFee,
+} from "../bitcoin";
 import * as ledger from "../ledger";
 import { Button, Form, Jumbotron, Alert, Spinner } from "react-bootstrap";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -52,10 +59,16 @@ export default class SignAndSend extends Component<Props> {
     isSending: false,
   };
 
-  componentDidMount() {
-    let total = 0;
-    this.props.outputs.forEach((utxo) => (total += utxo.value));
-    this.setState({ satoshis: total });
+  async componentDidMount() {
+    const { apiBtc, outputs } = this.props;
+
+    const fees = await apiBtc.feeEstimates();
+    const txFee = estimateSegWitFee(outputs.size, 1, fees[6]);
+
+    let satoshis = 0;
+    outputs.forEach((utxo) => (satoshis += utxo.value));
+
+    this.setState({ satoshis, txFee });
   }
 
   async sendTx(hex: string) {
@@ -105,7 +118,6 @@ export default class SignAndSend extends Component<Props> {
         ),
         recipient
       );
-      // TODO: automatically publish?
       this.setState({
         txHex: txHex,
       });

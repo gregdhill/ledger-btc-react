@@ -1127,10 +1127,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@interlay/esplora-btc-api@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@interlay/esplora-btc-api/-/esplora-btc-api-0.1.6.tgz#993956f3098c32168cd8fb6f73242e1c443bc64b"
-  integrity sha512-VYkAe+ODI+ZCIP8RMk13YO33NcLKHqM2HD+sI2RYC5wA9AaUr/yq3i22HBIKcSmyj1fjRR7R6QdP4ziWhYOSQw==
+"@interlay/esplora-btc-api@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@interlay/esplora-btc-api/-/esplora-btc-api-0.1.7.tgz#c4e1b419f11bad0636b50241668f6e69d7fd789a"
+  integrity sha512-NhExBCONoxtOtAoeoVIe++ySfssztta7WtcQ9kVMHLaKtzCHsoseIPMb2cnxXqah3Uund9i0KfF7Edz02VBtYg==
   dependencies:
     "@types/node" "^14.0.27"
     axios "^0.19.2"
